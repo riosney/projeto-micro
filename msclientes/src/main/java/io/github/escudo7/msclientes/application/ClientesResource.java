@@ -3,6 +3,7 @@ package io.github.escudo7.msclientes.application;
 import io.github.escudo7.msclientes.application.representation.ClienteSaveRequest;
 import io.github.escudo7.msclientes.domain.Cliente;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +18,14 @@ import java.net.URI;
 @RestController
 @RequestMapping("clientes")
 @RequiredArgsConstructor
+@Slf4j
 public class ClientesResource {
 
     private final ClienteService service;
 
     @GetMapping
     public String status(){
+        log.info("Status do microservice clientes");
         return "Ok";
     }
 
