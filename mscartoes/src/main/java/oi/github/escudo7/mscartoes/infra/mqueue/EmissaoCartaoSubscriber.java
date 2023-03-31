@@ -22,7 +22,7 @@ public class EmissaoCartaoSubscriber {
     public void receberSolicitacaoEmissao(@Payload String payload){
         try{
             var mapper = new ObjectMapper();
-            
+
             DadosSolicitacaoEmissaoCartao dados = mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
             Cartao cartao = cartaoRepository.findById(dados.getIdCartao()).orElseThrow();
 
