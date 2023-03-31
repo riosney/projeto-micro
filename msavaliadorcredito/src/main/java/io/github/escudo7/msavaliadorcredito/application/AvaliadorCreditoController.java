@@ -2,7 +2,10 @@ package io.github.escudo7.msavaliadorcredito.application;
 
 import io.github.escudo7.msavaliadorcredito.application.ex.DadosClienteNotFoundException;
 import io.github.escudo7.msavaliadorcredito.application.ex.ErroComunicacaoMicroservicesException;
+import io.github.escudo7.msavaliadorcredito.application.ex.ErroSolicitacaoCartaoException;
 import io.github.escudo7.msavaliadorcredito.domain.model.DadosAvaliacao;
+import io.github.escudo7.msavaliadorcredito.domain.model.DadosSolicitacaoEmissaoCartao;
+import io.github.escudo7.msavaliadorcredito.domain.model.ProtocoloSolicitacaoCartao;
 import io.github.escudo7.msavaliadorcredito.domain.model.RetornoAvaliacaoCliente;
 import io.github.escudo7.msavaliadorcredito.domain.model.SituacaoCliente;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +53,17 @@ public class AvaliadorCreditoController {
             return ResponseEntity.notFound().build();
         } catch (ErroComunicacaoMicroservicesException e) {
             return ResponseEntity.status(HttpStatus.resolve(e.getStatus())).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("solicitacoes-cartao")
+    public ResponseEntity soclitarCartao(@RequestBody DadosSolicitacaoEmissaoCartao dados){
+        try {
+            ProtocoloSolicitacaoCartao protocoloSolicitacaoCartao = avaliadorCreditoService
+                    .solicitarEmissaoCartao(dados);
+            return ResponseEntity.ok(protocoloSolicitacaoCartao);
+        }catch (ErroSolicitacaoCartaoException e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
