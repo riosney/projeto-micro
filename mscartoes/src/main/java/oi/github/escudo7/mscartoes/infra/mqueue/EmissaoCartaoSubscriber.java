@@ -2,6 +2,7 @@ package oi.github.escudo7.mscartoes.infra.mqueue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import oi.github.escudo7.mscartoes.domain.Cartao;
 import oi.github.escudo7.mscartoes.domain.ClienteCartao;
 import oi.github.escudo7.mscartoes.domain.DadosSolicitacaoEmissaoCartao;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class EmissaoCartaoSubscriber {
 
     private final CartaoRepository cartaoRepository;
@@ -34,7 +36,7 @@ public class EmissaoCartaoSubscriber {
             clienteCartaoRepository.save(clienteCartao);
 
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("Erro ao receber solicitacao de emissao de cartao: {} ", e.getMessage());
         }
     }
 
