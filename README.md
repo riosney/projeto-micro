@@ -22,19 +22,28 @@ localhost:PORTA/swagger-ui/index.html
 
 Buildando a imagem:
 docker build --tag cursoms-eureka .
+docker build --tag cursoms-cartoes .
 
 Comando para rodar imagem:
 docker run --name cursoms-eureka -p 8761:8761 cursoms-eureka
+docker run --name cursoms-cartoes cursoms-cartoes
 
-Ver os processos docker no PowerShell:
-docker ps
+Comando parar um container: docker container stop teste-eureka
+Comando remover container: docker container rm teste-eureka
 
-Comando parar um container:
-docker container stop teste-eureka
+Criar network: docker network create cursoms-network
+Mostrar network: docker network ls
 
-Comando remover container:
-docker container rm teste-eureka
+Apontando para network:
+docker run --name cursoms-eureka -p 8761:8761 --network cursoms-network cursoms-eureka
 
-Deletar a imagem:
-docker image rm cursoms-eureka
+Rodando a imagem com network:
+docker run --name cursoms-cartoes --network cursoms-network cursoms-cartoes
 
+Sequência:
+Ver os processos docker e nome dos container: docker ps
+Imagens existentes: docker images
+Stopar a imagem: docker stop nome-imagem
+Deletar a imagem: docker rm cursoms-eureka
+Inicializar o container com networke variável de ambiente:
+docker run --name cursoms-cartoes --network cursoms-network -e RABBITMQ_SERVER=rabbitmq -e EUREKA_SERVER=cursoms-eureka -d cursoms-cartoes
